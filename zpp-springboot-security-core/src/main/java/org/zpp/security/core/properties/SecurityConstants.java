@@ -65,4 +65,14 @@ public interface SecurityConstants {
 	 */
 	public static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
 
+	/**
+	 * {bcrypt} 加密的前缀
+	 */
+	public static final String BCRYPT = "{bcrypt}";
+
+	/**
+	 * {noop} 未加密的前缀
+	 */
+	public static final String NOOP = "{noop}";
+
 }

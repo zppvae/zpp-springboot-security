@@ -15,8 +15,8 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.zpp.security.core.component.MyWebResponseExceptionTranslator;
 import org.zpp.security.core.properties.OAuth2ClientProperties;
+import org.zpp.security.core.properties.SecurityConstants;
 import org.zpp.security.core.properties.SecurityProperties;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class MyAuthorizationServerConfig extends AuthorizationServerConfigurerAd
         if (ArrayUtils.isNotEmpty(securityProperties.getOauth2().getClients())) {
             for (OAuth2ClientProperties client : securityProperties.getOauth2().getClients()) {
                 builder.withClient(client.getClientId())
-                        .secret(client.getClientSecret())
+                        .secret(SecurityConstants.NOOP + client.getClientSecret())
                         .authorizedGrantTypes("refresh_token", "authorization_code", "password")
                         .accessTokenValiditySeconds(client.getAccessTokenValidateSeconds())
                         .refreshTokenValiditySeconds(2592000)

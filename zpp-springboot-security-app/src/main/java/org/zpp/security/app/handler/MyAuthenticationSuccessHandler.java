@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.zpp.security.app.handler;
 
 import java.io.IOException;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.zpp.security.core.properties.SecurityConstants;
-import org.zpp.security.core.properties.SecurityProperties;
 
 
 @Component("myAuthenticationSuccessHandler")
@@ -66,7 +62,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 		assert tokens.length == 2;
 
 		String clientId = tokens[0];
-		String clientSecret = tokens[1];
+		String clientSecret = SecurityConstants.NOOP + tokens[1];
 
 		//查询client信息
 		ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);

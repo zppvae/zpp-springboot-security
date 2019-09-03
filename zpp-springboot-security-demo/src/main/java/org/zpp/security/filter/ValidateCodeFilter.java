@@ -1,13 +1,18 @@
-package org.zpp.security.core.validate.code;
+package org.zpp.security.filter;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.zpp.common.exception.ValidateCodeException;
+import org.zpp.common.validate.code.ValidateCodeProcessorHolder;
+import org.zpp.common.validate.code.ValidateCodeType;
+import org.zpp.security.core.exception.MyAuthenticationException;
 import org.zpp.security.core.properties.SecurityConstants;
 import org.zpp.security.core.properties.SecurityProperties;
 
@@ -97,7 +102,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 						.validate(new ServletWebRequest(request, response));
 				logger.info("验证码校验通过");
 			} catch (ValidateCodeException exception) {
-				authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
+				MyAuthenticationException ex = new MyAuthenticationException(exception.getMessage());
+				authenticationFailureHandler.onAuthenticationFailure(request, response, ex);
 				return;//不执行后面的过滤器
 			}
 		}

@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.zpp.security.core.validate.code.ValidateCode;
-import org.zpp.security.core.validate.code.ValidateCodeException;
-import org.zpp.security.core.validate.code.ValidateCodeRepository;
-import org.zpp.security.core.validate.code.ValidateCodeType;
+import org.zpp.common.exception.ValidateCodeException;
+import org.zpp.common.validate.code.ValidateCode;
+import org.zpp.common.validate.code.ValidateCodeRepository;
+import org.zpp.common.validate.code.ValidateCodeType;
 
 import java.util.concurrent.TimeUnit;
 

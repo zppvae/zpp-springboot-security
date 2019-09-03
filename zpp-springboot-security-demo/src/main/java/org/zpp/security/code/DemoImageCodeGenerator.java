@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
+import org.zpp.common.validate.code.ValidateCodeGenerator;
+import org.zpp.common.validate.code.image.ImageCode;
 import org.zpp.security.core.properties.SecurityProperties;
-import org.zpp.security.core.validate.code.ValidateCodeGenerator;
-import org.zpp.security.core.validate.code.image.ImageCode;
 
 /**
  * 线条式验证码

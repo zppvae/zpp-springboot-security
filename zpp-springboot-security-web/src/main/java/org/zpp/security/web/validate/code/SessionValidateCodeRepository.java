@@ -5,8 +5,6 @@ import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.zpp.security.core.validate.code.ValidateCode;
-import org.zpp.security.core.validate.code.ValidateCodeRepository;
-import org.zpp.security.core.validate.code.ValidateCodeType;
 
 /**
  * 浏览器session存储

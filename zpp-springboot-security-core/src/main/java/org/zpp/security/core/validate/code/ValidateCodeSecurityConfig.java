@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.zpp.security.core.validate.code;
 
 import org.springframework.beans.factory.annotation.Autowired;

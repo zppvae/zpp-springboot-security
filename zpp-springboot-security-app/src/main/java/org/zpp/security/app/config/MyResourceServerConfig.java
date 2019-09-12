@@ -28,7 +28,7 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-    @Autowired
+    @Autowired(required = false)
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     @Autowired
@@ -51,8 +51,10 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         formAuthenticationConfig.configure(http);
 
-        http.apply(validateCodeSecurityConfig)
-                	.and()
+        if (validateCodeSecurityConfig != null) {
+            http.apply(validateCodeSecurityConfig);
+        }
+        http
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 .apply(mySocialSecurityConfig)

@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-    @Autowired
+    @Autowired(required = false)
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     /**
@@ -64,8 +64,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         formAuthenticationConfig.configure(http);
 
-        http.apply(validateCodeSecurityConfig)
-                    .and()
+        if (validateCodeSecurityConfig != null) {
+            http.apply(validateCodeSecurityConfig);
+        }
+        http
                 .apply(smsCodeAuthenticationSecurityConfig)
                     .and()
                 .apply(mySocialSecurityConfig)

@@ -1,10 +1,15 @@
 package org.zpp.security.web.validate.code;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.zpp.security.core.validate.code.ValidateCode;
+import org.zpp.common.validate.code.ValidateCode;
+import org.zpp.common.validate.code.ValidateCodeRepository;
+import org.zpp.common.validate.code.ValidateCodeType;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 浏览器session存储
@@ -24,32 +29,36 @@ public class SessionValidateCodeRepository implements ValidateCodeRepository {
 	 */
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
+	@Autowired
+	private HttpServletRequest httpServletRequest;
 
 	@Override
-	public void save(ServletWebRequest request, ValidateCode code, ValidateCodeType validateCodeType) {
-		sessionStrategy.setAttribute(request, getSessionKey(request, validateCodeType), code);
+	public void save(String deviceId, ValidateCode code, ValidateCodeType validateCodeType) {
+		ServletWebRequest request = new ServletWebRequest(httpServletRequest);
+		sessionStrategy.setAttribute(request, getSessionKey(validateCodeType), code);
 	}
 	
 	/**
 	 * 构建验证码放入session时的key
 	 * 
-	 * @param request
 	 * @return
 	 */
-	private String getSessionKey(ServletWebRequest request, ValidateCodeType validateCodeType) {
+	private String getSessionKey(ValidateCodeType validateCodeType) {
 		return SESSION_KEY_PREFIX + validateCodeType.toString().toUpperCase();
 	}
 
 
 	@Override
-	public ValidateCode get(ServletWebRequest request, ValidateCodeType validateCodeType) {
-		return (ValidateCode) sessionStrategy.getAttribute(request, getSessionKey(request, validateCodeType));
+	public ValidateCode get(String deviceId, ValidateCodeType validateCodeType) {
+		ServletWebRequest request = new ServletWebRequest(httpServletRequest);
+		return (ValidateCode) sessionStrategy.getAttribute(request, getSessionKey(validateCodeType));
 	}
 
 
 	@Override
-	public void remove(ServletWebRequest request, ValidateCodeType codeType) {
-		sessionStrategy.removeAttribute(request, getSessionKey(request, codeType));
+	public void remove(String deviceId, ValidateCodeType codeType) {
+		ServletWebRequest request = new ServletWebRequest(httpServletRequest);
+		sessionStrategy.removeAttribute(request, getSessionKey(codeType));
 	}
 
 }

@@ -24,12 +24,7 @@ public class DemoImageCodeGenerator implements ValidateCodeGenerator {
 	private SecurityProperties securityProperties;
 
 	@Override
-	public ImageCode generate(ServletWebRequest request) {
-		int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width",
-				securityProperties.getCode().getImage().getWidth());
-		int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height",
-				securityProperties.getCode().getImage().getHeight());
-
+	public ImageCode generate(int width,int height) {
 		//定义图形验证码的长、宽、验证码字符数、干扰元素个数
 		LineCaptcha captcha = CaptchaUtil.createLineCaptcha(width,height,
 				securityProperties.getCode().getImage().getLength(), 20);

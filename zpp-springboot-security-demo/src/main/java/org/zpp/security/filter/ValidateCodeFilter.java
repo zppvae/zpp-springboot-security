@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.zpp.common.exception.ValidateCodeException;
@@ -97,9 +98,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 		ValidateCodeType type = getValidateCodeType(request);
 		if (type != null) {
 			logger.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
+			String deviceId = request.getHeader("deviceId");
+			String codeVal = ServletRequestUtils.getStringParameter(request,
+					type.getParamNameOnValidate());
 			try {
 				validateCodeProcessorHolder.findValidateCodeProcessor(type)
-						.validate(new ServletWebRequest(request, response));
+						.validate(deviceId,codeVal);
 				logger.info("验证码校验通过");
 			} catch (ValidateCodeException exception) {
 				MyAuthenticationException ex = new MyAuthenticationException(exception.getMessage());
